@@ -68,7 +68,6 @@ type ImageType = {
 const zctImages = ref<ImageType[]>(getDefaultZcts());
 const zctMetadata = ref([]);
 const tokenId = ref(1);
-console.log(zombieMap);
 const submit = async() => {
   if (zombieMap[tokenId.value]) {
     const metadataCids = zombieMap[tokenId.value];
