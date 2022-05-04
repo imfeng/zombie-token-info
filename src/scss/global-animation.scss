@@ -1,0 +1,58 @@
+@import '~@/scss/foundation/config';
+.flight {
+    animation:flight 2s ease-in-out infinite;
+}
+@keyframes flight{
+    0% {
+        top: -50px;
+    }
+    50% {
+        top: -70px;
+    }
+    100% {
+        top: -50px;
+    }
+}
+
+
+
+@keyframes rotate-animation {
+    from {
+      transform: rotate(0);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+}
+
+@keyframes bright-light {
+    0% {
+      background-color: rgba(219, 0, 0, 0);
+      box-shadow: 0 0 5px rgba(219, 0, 0, 0), inset 0 0 5px rgba(219, 0, 0, 0);
+    }
+
+    100% {
+      background-color: rgba(219, 0, 0, 1);
+      box-shadow: 0 0 8px 2px rgb(215 0 0 / 50%), inset 0 0 11px rgb(199 0 0 / 10%);
+    }
+}
+
+
+@keyframes bright-button {
+    0% {
+      opacity: .3;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+    opacity: .3;
+    }
+}

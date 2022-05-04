@@ -1,0 +1,27 @@
+@import "~@/scss/reset.scss";
+@import '~@/scss/foundation/config';
+@import '~@/scss/global-animation.scss';
+
+
+.rtl {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
+
+html {
+    /* Prevent font scaling in landscape while allowing user zoom */
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    width: 100vw;
+    background-color: $bg-color;
+    color: $primary-color-1;
+
+    font-size: 14px;
+    font-family: Roboto, "Browallia New", sans-serif;
+
+}

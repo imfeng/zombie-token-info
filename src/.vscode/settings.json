@@ -1,0 +1,35 @@
+{
+//       "editor.formatOnSave": false,
+//   "eslint.lintTask.enable": true,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "prettier.vueIndentScriptAndStyle": false,
+    "prettier.enable": false,
+    "javascript.validate.enable": false,    // use eslint validate
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "[scss]": {
+        "editor.formatOnSave": true,
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "files.associations": {
+        ".env.*": "dotenv"
+    },
+    "files.eol": "\n",
+    "eslint.probe": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "vue",
+        "markdown",
+        "ts"
+    ],
+    "eslint.validate": [
+        "javascript",
+        "typescript",
+        "vue"
+    ],
+    "volar.tsPlugin": true
+}

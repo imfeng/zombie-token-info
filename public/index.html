@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <!-- Search Engine -->
+    <meta name="description" content="The first interactive music NFT collection from PHHD. Become your own music producer, come up with your dopest beat and claim your own interactive music NFT which is based on your Lil Pluto!">
+    <meta name="image" content="https://plutohiphopdept.com/<%= htmlWebpackPlugin.options.image %>">
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta itemprop="description" content="The first interactive music NFT collection from PHHD. Become your own music producer, come up with your dopest beat and claim your own interactive music NFT which is based on your Lil Pluto!">
+    <meta itemprop="image" content="https://plutohiphopdept.com/<%= htmlWebpackPlugin.options.image %>">
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta name="og:title" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta name="og:description" content="The first interactive music NFT collection from PHHD. Become your own music producer, come up with your dopest beat and claim your own interactive music NFT which is based on your Lil Pluto!">
+    <meta name="og:image" content="https://plutohiphopdept.com/<%= htmlWebpackPlugin.options.image %>">
+    <meta name="og:url" content="https://plutohiphopdept.com/<%= htmlWebpackPlugin.options.filename %>">
+    <meta name="og:site_name" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta name="og:locale" content="en_US">
+    <meta name="og:video" content="https://www.youtube.com/watch?v=AB_1WUcpRa8">
+    <meta name="og:type" content="website">
+    <% if(htmlWebpackPlugin.options.isDisabledTranslate) { %>
+      <meta name="google" content="notranslate">
+    <% } %>
+
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5XR47R5');</script>
+  <!-- End Google Tag Manager -->
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5XR47R5"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NZZ4XPDJKB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NZZ4XPDJKB');
+    </script> 
+  </body>
+</html>
