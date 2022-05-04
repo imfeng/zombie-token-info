@@ -81,7 +81,7 @@ const submit = async() => {
     }));
     for (let index = 0; index < metadataCids.length; index++) {
       const metadataUrl = metadataCids[index];
-      zctImages.value[index].isDup = index !== 0 && metadataUrl === metadataCids[index - 1];
+      zctImages.value[index].isDup = (index !== 0 && metadataUrl === metadataCids[index - 1]) || !metadataUrl;
       if (zctImages.value[index].isDup) {
         zctImages.value[index].url = ImgCross;
         zctImages.value[index].isLoaded = true;
