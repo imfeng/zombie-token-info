@@ -1,24 +1,31 @@
 module.exports = {
   root: true,
   env: {
+    browser: true,
+    es2021: true,
     node: true
   },
   extends: [
     'plugin:vue/vue3-essential',
     '@vue/standard',
-    '@vue/typescript/recommended'
+    '@vue/typescript/recommended',
+    '@vue/prettier',
+    '@vue/prettier/@typescript-eslint'
   ],
+  plugins: ['vue', '@typescript-eslint'],
   parserOptions: {
-    ecmaVersion: 2020
+    ecmaVersion: 2021,
   },
   rules: {
+    'import/no-unresolved': 'off',
+    'import/extensions': 'off',
     'array-bracket-spacing': 'off',
-    "comma-dangle": ["error", {
-        "arrays": "always",
-        "objects": "always",
-        "imports": "never",
-        "exports": "never",
-        "functions": "never"
+    'comma-dangle': ['error', {
+        'arrays': 'always',
+        'objects': 'always',
+        'imports': 'never',
+        'exports': 'never',
+        'functions': 'never'
     }],
     'vue/no-unused-components': 'warn',
     'space-before-function-paren': ['error', 'never'],

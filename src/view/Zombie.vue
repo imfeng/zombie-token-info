@@ -4,9 +4,8 @@
         class="app"
         v-bind:class="[isMobile ? 'mobile' : 'desktop']"
     >
-
-        <div class="section-studio">
-
+        <div ref="sectionStudio" class="section-studio">
+            <p class="zombie-title">ZombieClub</p>
             <div class="zombie-box">
                 <div
                     class="img-item"
@@ -15,14 +14,18 @@
                 >
                     <Loading v-bind:isShow="!item.isLoaded"></Loading>
                     <img
-
+                        v-if="item.isDup"
+                        v-bind:style="imageItemStyle"
                         v-bind:alt="`#${idx}`"
                         v-bind:src="item.url"
                     >
+                    <div class="no-image" v-bind:style="imageItemStyle">
+                      <p>NO IMAGE</p>
+                    </div>
                 </div>
             </div>
             <div class="control-box">
-                <label for="">Zombie club REVEAL ID：</label>
+                <label for="">REVEAL ID：</label>
                 <input
                     v-model="revealId"
                     class="input-zombie"
@@ -34,7 +37,7 @@
             </div>
             <p>or</p>
             <div class="control-box">
-                <label for="">Zombie club TOKEN ID：</label>
+                <label for="">TOKEN ID：</label>
                 <input
                     v-model="tokenId"
                     class="input-zombie"
@@ -66,7 +69,7 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted, reactive, computed } from 'vue';
 import ImgBlack from '@/assets/images/square-black.png';
 import ImgCross from '@/assets/images/square-cross.png';
 import ImgZctBlind from '@/assets/images/zombie-blind.png';
@@ -76,12 +79,13 @@ import Loading from '@/components/Loading.vue';
 import { GlobalStore } from '@/store/GlobalStore';
 
 const ipfsGateway = 'https://cloudflare-ipfs.com/ipfs/';
-const { isMobile, } = GlobalStore;
+const { isMobile, screenSize } = GlobalStore;
 type ImageType = {
     url: string;
     isLoaded: boolean;
     isDup: boolean;
 }
+const sectionStudio = ref<HTMLDivElement>(null);
 const zctImages = ref<ImageType[]>(getDefaultZcts());
 const zctMetadata = ref([]);
 const tokenId = ref(1);
@@ -91,6 +95,13 @@ const token2Reveal = Object.entries(r2t).reduce((acc, item) => {
   acc[item[1]] = Number(item[0]);
   return acc;
 }, {} as { [k: string]: number});
+onMounted(() => {
+  resizeImgSquare();
+  window.addEventListener('resize', resizeImgSquare);
+});
+onUnmounted(() => {
+  window.removeEventListener('resize', resizeImgSquare);
+});
 const submit = async() => {
   if (zombieMap[tokenId.value]) {
     revealId.value = token2Reveal[tokenId.value];
@@ -158,6 +169,27 @@ function getDefaultZcts() {
     isDup: false,
   }));
 }
+const imgeItemSize = reactive({
+  width: 0,
+  height: 0,
+});
+const imageItemStyle = computed(() => {
+  const style = {};
+  if(imgeItemSize.width) {
+    style['width'] = imgeItemSize.width;
+  }
+  if(imgeItemSize.height) {
+    style['height'] = imgeItemSize.height;
+  }
+  return style;
+})
+function resizeImgSquare() {
+  const { width } = sectionStudio.value.getBoundingClientRect();
+  const len = Math.round(width / 2);
+  imgeItemSize.width = len;
+  imgeItemSize.height = len;
+  console.log(imageItemStyle.value)
+}
 </script>
 
 <style lang="scss">
@@ -200,10 +232,15 @@ function getDefaultZcts() {
             position: relative;
         }
     }
-
+    .zombie-title {
+      font-family: 'Creepster', sans-serif;
+      color: #afff10;
+      font-size: 2rem;
+      margin: 1rem;
+    }
     .zombie-box {
-        max-width: 600px;
-        max-height: 600px;
+        width: 100%;
+
         display: flex;
         flex-wrap:wrap;
         .img-item {
@@ -211,10 +248,11 @@ function getDefaultZcts() {
             width: 50%;
             height: 50%;
             flex: 1 1 50%;
-            img {
+            img, .no-image {
                 width: 100%;
                 height: 100%;
             }
+
         }
     }
     .control-box {
