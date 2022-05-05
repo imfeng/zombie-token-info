@@ -229,7 +229,7 @@ function getDefaultZcts() {
             cursor: pointer;
             justify-content: center;
             align-items: center;
-            border: 6px solid #c9fa40;
+            border: 3px solid #c9fa40;
             border-radius: 15px;
             background-color: #66f25f;
             background-image: url('~@/assets/images/btn-zombie.png');
@@ -237,7 +237,7 @@ function getDefaultZcts() {
             background-size: 100% 200%;
             background-repeat: no-repeat;
             color: #000;
-            letter-spacing: .14em;
+            letter-spacing: .14rem;
             text-transform: uppercase;
         }
         .input-zombie {
