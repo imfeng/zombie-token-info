@@ -86,11 +86,16 @@ const zctImages = ref<ImageType[]>(getDefaultZcts());
 const zctMetadata = ref([]);
 const tokenId = ref(1);
 const revealId = ref(0);
-
+const r2t: { [k: string]: string} = reveal2Token;
+const token2Reveal = Object.entries(r2t).reduce((acc, item) => {
+  acc[item[1]] = Number(item[0]);
+  return acc;
+}, {} as { [k: string]: number});
 const submit = async() => {
   if (zombieMap[tokenId.value]) {
+    revealId.value = token2Reveal[tokenId.value];
     const metadataCids = zombieMap[tokenId.value];
-    zctMetadata.value = metadataCids.map(r => r ? `${ipfsGateway}${r}` : '');
+    zctMetadata.value = metadataCids.map((r: string) => r ? `${ipfsGateway}${r}` : '');
 
     zctImages.value = new Array(4).fill(0).map(() => ({
       url: ImgBlack,
