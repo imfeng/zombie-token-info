@@ -22,7 +22,19 @@
                 </div>
             </div>
             <div class="control-box">
-                <label for="">Zombie club token ID： </label>
+                <label for="">Zombie club REVEAL ID：</label>
+                <input
+                    v-model="revealId"
+                    class="input-zombie"
+                    type="number"
+                >
+                <button v-on:click="submitRevealId" class="btn-zombie">
+                    SUBMIT
+                </button>
+            </div>
+            <p>or</p>
+            <div class="control-box">
+                <label for="">Zombie club TOKEN ID：</label>
                 <input
                     v-model="tokenId"
                     class="input-zombie"
@@ -34,16 +46,20 @@
             </div>
             <div class="detail-box">
                 <p>latest update: 2022-05-05 05:00:00(GMT+8)</p>
-                <a
-                    target="_blank"
+                <template
                     v-for="(url, idx) in zctMetadata"
                     v-bind:key="idx"
-                    v-bind:href="url"
-                >Metadata #{{ idx }}</a>
+                >
+                    <a
+                        target="_blank"
+                        v-if="url"
+                        v-bind:href="url"
+                    >Metadata #{{ idx }}</a>
+                </template>
             </div>
         </div>
         <div class="copyright">
-          <a target="_blank" href="https://etherscan.io/address/0xdE6bd783d0068bBf9011c50615F139FAf5acAA85">If you like this please donate: 0xdE6bd783d0068bBf9011c50615F139FAf5acAA85</a>
+            <a target="_blank" href="https://etherscan.io/address/0xdE6bd783d0068bBf9011c50615F139FAf5acAA85">If you like this please donate: 0xdE6bd783d0068bBf9011c50615F139FAf5acAA85</a>
         </div>
     </div>
 </template>
@@ -54,6 +70,7 @@ import { ref } from 'vue';
 import ImgBlack from '@/assets/images/square-black.png';
 import ImgCross from '@/assets/images/square-cross.png';
 import ImgZctBlind from '@/assets/images/zombie-blind.png';
+import reveal2Token from '@/assets/reveal-to-token.json';
 import zombieMap from '@/assets/zombie-map.json';
 import Loading from '@/components/Loading.vue';
 import { GlobalStore } from '@/store/GlobalStore';
@@ -68,10 +85,12 @@ type ImageType = {
 const zctImages = ref<ImageType[]>(getDefaultZcts());
 const zctMetadata = ref([]);
 const tokenId = ref(1);
+const revealId = ref(0);
+
 const submit = async() => {
   if (zombieMap[tokenId.value]) {
     const metadataCids = zombieMap[tokenId.value];
-    zctMetadata.value = metadataCids.map(r => `${ipfsGateway}${r}`);
+    zctMetadata.value = metadataCids.map(r => r ? `${ipfsGateway}${r}` : '');
 
     zctImages.value = new Array(4).fill(0).map(() => ({
       url: ImgBlack,
@@ -107,7 +126,16 @@ const submit = async() => {
   } else {
     alert(`Cannot find Token ID #${tokenId.value}`);
   }
-};
+}
+
+const submitRevealId = () => {
+  if (reveal2Token[revealId.value]) {
+    tokenId.value = reveal2Token[revealId.value];
+    submit();
+  } else {
+    alert(`Cannot find Reveal ID #${revealId.value}`);
+  }
+}
 
 function addImageProcess(src: string) {
   return new Promise((resolve, reject) => {
@@ -222,6 +250,6 @@ function getDefaultZcts() {
     }
 
     .copyright, .copyright a {
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.15);
     }
 </style>
