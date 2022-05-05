@@ -15,15 +15,15 @@
                     class="img-item"
                     v-for="(item, idx) in zctImages"
                     v-bind:key="idx"
+                    v-bind:style="imageItemStyle"
                 >
                     <Loading v-bind:isShow="!item.isLoaded"></Loading>
                     <img
                         v-if="!item.isDup"
-                        v-bind:style="imageItemStyle"
                         v-bind:alt="`#${idx}`"
                         v-bind:src="item.url"
                     >
-                    <div v-else class="no-image" v-bind:style="imageItemStyle">
+                    <div v-else class="no-image" >
                       <p>NO IMAGE</p>
                     </div>
                 </div>
@@ -67,6 +67,7 @@
         </div>
         <div class="copyright">
             <a target="_blank" href="https://etherscan.io/address/0xdE6bd783d0068bBf9011c50615F139FAf5acAA85">If you like this please donate: 0xdE6bd783d0068bBf9011c50615F139FAf5acAA85</a>
+            <a target="_blank" href="https://discord.gg/VR5QtajJ">Made by Pluto Lab</a>
         </div>
     </div>
 </template>
@@ -230,8 +231,8 @@ function resizeImgSquare() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          width: 95vw;
-          height: 95vh;
+          width: 100%;
+          max-width: 640px;
           overflow: hidden;
             position: relative;
         }
@@ -247,16 +248,17 @@ function resizeImgSquare() {
 
     }
     .zombie-box {
-        width: 100%;
-
         display: flex;
         flex-wrap:wrap;
+        justify-content: center;
+        margin: 1rem auto;
         .img-item {
+          max-width: 230px;
+          max-height: 230px;
             position: relative;
-            width: 50%;
-            height: 50%;
             flex: 1 1 50%;
             img, .no-image {
+            
                 width: 100%;
                 height: 100%;
             }
@@ -307,7 +309,11 @@ function resizeImgSquare() {
       text-align: center;
     }
 
-    .copyright, .copyright a {
-      color: rgba(255, 255, 255, 0.3);
+    .copyright {
+      padding: 1rem;
+        margin-top: 2rem;
+      a {
+        color: rgba(255, 255, 255, 0.3);
+      }
     }
 </style>
