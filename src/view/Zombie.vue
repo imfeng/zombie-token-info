@@ -5,7 +5,11 @@
         v-bind:class="[isMobile ? 'mobile' : 'desktop']"
     >
         <div ref="sectionStudio" class="section-studio">
+          <header>
             <p class="zombie-title">ZombieClub</p>
+            <p class="zombie-title-sub">非官方網站，資訊僅供參考</p>
+            <p class="zombie-title-sub">Unofficial website, information is for reference only</p>
+          </header>
             <div class="zombie-box">
                 <div
                     class="img-item"
@@ -14,12 +18,12 @@
                 >
                     <Loading v-bind:isShow="!item.isLoaded"></Loading>
                     <img
-                        v-if="item.isDup"
+                        v-if="!item.isDup"
                         v-bind:style="imageItemStyle"
                         v-bind:alt="`#${idx}`"
                         v-bind:src="item.url"
                     >
-                    <div class="no-image" v-bind:style="imageItemStyle">
+                    <div v-else class="no-image" v-bind:style="imageItemStyle">
                       <p>NO IMAGE</p>
                     </div>
                 </div>
@@ -176,10 +180,10 @@ const imgeItemSize = reactive({
 const imageItemStyle = computed(() => {
   const style = {};
   if(imgeItemSize.width) {
-    style['width'] = imgeItemSize.width;
+    style['width'] = `${imgeItemSize.width}px`;
   }
   if(imgeItemSize.height) {
-    style['height'] = imgeItemSize.height;
+    style['height'] = `${imgeItemSize.height}px`;
   }
   return style;
 })
@@ -232,11 +236,15 @@ function resizeImgSquare() {
             position: relative;
         }
     }
-    .zombie-title {
-      font-family: 'Creepster', sans-serif;
-      color: #afff10;
-      font-size: 2rem;
+    header {
       margin: 1rem;
+      text-align: center;
+      .zombie-title {
+        font-family: 'Creepster', sans-serif;
+        color: #afff10;
+        font-size: 2rem;
+      }
+
     }
     .zombie-box {
         width: 100%;
@@ -251,6 +259,13 @@ function resizeImgSquare() {
             img, .no-image {
                 width: 100%;
                 height: 100%;
+            }
+
+            .no-image {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: rgba(255,255,255, 0.3);
             }
 
         }
@@ -293,6 +308,6 @@ function resizeImgSquare() {
     }
 
     .copyright, .copyright a {
-      color: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.3);
     }
 </style>
