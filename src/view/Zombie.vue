@@ -67,7 +67,8 @@
         </div>
         <div class="copyright">
             <a target="_blank" href="https://etherscan.io/address/0xdE6bd783d0068bBf9011c50615F139FAf5acAA85">If you like this please donate: 0xdE6bd783d0068bBf9011c50615F139FAf5acAA85</a>
-            <a target="_blank" href="https://discord.gg/VR5QtajJ">Made by Pluto Lab</a>
+            <br />
+            <a target="_blank" class="pluto" href="https://discord.gg/VR5QtajJ">Made by Pluto Lab</a>
         </div>
     </div>
 </template>
@@ -193,7 +194,6 @@ function resizeImgSquare() {
   const len = Math.round(width / 2);
   imgeItemSize.width = len;
   imgeItemSize.height = len;
-  console.log(imageItemStyle.value)
 }
 </script>
 
@@ -204,7 +204,6 @@ function resizeImgSquare() {
     @import '@/scss/global-rwd.scss';
 
     html, body, .app {
-        overflow: hidden;
         padding: 0;
         margin: 0;
         .rectext,
@@ -219,22 +218,21 @@ function resizeImgSquare() {
 
     }
     .app {
-      display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-      overflow: hidden;
-      width: 100vw;
-      height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        min-height: 100vh;
         .section-studio {
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          padding-bottom: 3rem;
           width: 100%;
           max-width: 640px;
-          overflow: hidden;
-            position: relative;
+          position: relative;
         }
     }
     header {
@@ -310,9 +308,12 @@ function resizeImgSquare() {
     }
 
     .copyright {
+      text-align: center;
       padding: 1rem;
-        margin-top: 2rem;
       a {
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .pluto {
         color: rgba(255, 255, 255, 0.3);
       }
     }
