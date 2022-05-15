@@ -52,7 +52,7 @@
                 </button>
             </div>
             <div class="detail-box">
-                <p>latest update: 2022-05-05 05:00:00(GMT+8)</p>
+                <p>updated time: {{updatedTime}} </p>
                 <template
                     v-for="(url, idx) in zctMetadata"
                     v-bind:key="idx"
@@ -83,14 +83,15 @@ import reveal2Token from '@/assets/reveal-to-token.json';
 import zombieMap from '@/assets/zombie-map.json';
 import Loading from '@/components/Loading.vue';
 import { GlobalStore } from '@/store/GlobalStore';
-
-const ipfsGateway = 'https://cloudflare-ipfs.com/ipfs/';
-const { isMobile, screenSize } = GlobalStore;
 type ImageType = {
     url: string;
     isLoaded: boolean;
     isDup: boolean;
 }
+
+const ipfsGateway = 'https://cloudflare-ipfs.com/ipfs/';
+const { isMobile, screenSize } = GlobalStore;
+const updatedTime = computed(() => new Date(zombieMap.updated_time).toLocaleString());
 const sectionStudio = ref<HTMLDivElement | null>(null);
 const zctImages = ref<ImageType[]>(getDefaultZcts());
 const zctMetadata = ref([]);

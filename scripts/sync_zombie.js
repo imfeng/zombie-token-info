@@ -16,7 +16,7 @@ async function main() {
     const latestBlock = await provider.getBlockNumber();
     const signer =  provider.getSigner()
     const ZombieContract = new ethers.Contract(ZombieAddress, ZombieABI, signer);
-    const result = {};
+    const result = {"updated_time": new Date().getTime()};
     const parseZombieToken = async (fromBlock, toBlock) => {
         const filters = ZombieContract.filters.Revealed();
         const revealedEvents = await ZombieContract.queryFilter(

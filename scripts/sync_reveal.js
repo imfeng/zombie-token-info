@@ -1,17 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const axiosRetry = require('axios-retry');
 const ZombieMap = require('../src/assets/zombie-map.json');
-const ipfsGateway = [ 'https://gateway.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs/', 'https://cf-ipfs.com/ipfs/', ];
-// 'https://cloudflare-ipfs.com/ipfs/',
+const ipfsGateway = [ 'https://cloudflare-ipfs.com/ipfs/', 'https://gateway.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs/', 'https://cf-ipfs.com/ipfs/', ];
+// ,
 // 'https://ipfs.sloppyta.co/ipfs/', 'https://ipfs.greyh.at/ipfs/'
 
 const outputFilePath = path.resolve(__dirname, '../src/assets/reveal-to-token.json');
 
-main()
+axiosRetry(axios, { retries: 3 });
 async function main() {
-  const result = {};
-  const ids = Object.keys(ZombieMap);
+  const result = {"updated_time": new Date().getTime()};
+  const ids = Object.keys(ZombieMap).sort((a, b) => a - b);
   let currentIndex = 0;
   let pending = [];
   console.log(`parsing ${ids.length} tokens.....`);
@@ -33,10 +34,12 @@ async function main() {
           result[revealId] = pending[idx].id;
         });
         pending = [];
+        await delay(1000);
       }
     } catch (error) {
       console.log(`ERROR: currentIndex=${currentIndex}`);
-      console.error(error.message, error.request.res.responseUrl);
+      console.error(error.message);
+      console.log(error.request)
     }
     currentIndex++;
   }
@@ -44,4 +47,17 @@ async function main() {
   fs.writeFileSync(outputFilePath, JSON.stringify(result), 'utf8', function(err) {
     if (err) return console.log(err);
   });
+}
+
+main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
+
+function delay(time = 1000) {
+  return new Promise((r) => {
+      setTimeout(r, time)
+  })
 }
