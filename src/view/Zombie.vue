@@ -91,7 +91,7 @@ type ImageType = {
     isLoaded: boolean;
     isDup: boolean;
 }
-const sectionStudio = ref<HTMLDivElement>(null);
+const sectionStudio = ref<HTMLDivElement | null>(null);
 const zctImages = ref<ImageType[]>(getDefaultZcts());
 const zctMetadata = ref([]);
 const tokenId = ref(1);
@@ -180,7 +180,7 @@ const imgeItemSize = reactive({
   height: 0,
 });
 const imageItemStyle = computed(() => {
-  const style = {};
+  const style: any = {};
   if(imgeItemSize.width) {
     style['width'] = `${imgeItemSize.width}px`;
   }
@@ -190,6 +190,7 @@ const imageItemStyle = computed(() => {
   return style;
 })
 function resizeImgSquare() {
+  if(!sectionStudio.value) return;
   const { width } = sectionStudio.value.getBoundingClientRect();
   const len = Math.round(width / 2);
   imgeItemSize.width = len;
