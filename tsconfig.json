@@ -3,7 +3,7 @@
     "allowJs": true,
     "incremental": true,
     "tsBuildInfoFile": ".cache/.tsbuildinfo",
-    "target": "es2019",
+    "target": "ESNext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "jest"
+      "jest",
+      "vite/client"
     ],
     "paths": {
       "@/*": [
@@ -32,6 +33,7 @@
     ]
   },
   "include": [
+    "scripts/**/*.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
