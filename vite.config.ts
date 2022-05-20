@@ -9,7 +9,7 @@ export default defineConfig(({mode}) => {
   return {
     base: process.env.VUE_APP_BASE_URL,
     plugins: [vue(), ],
-    build: { outDir: '/docs' },
+    build: { outDir: './docs' },
     resolve: {
       alias: {
         '@/': `${path.resolve(__dirname, 'src')}/`,
