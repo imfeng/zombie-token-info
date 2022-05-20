@@ -25,7 +25,7 @@ async function main() {
             toBlock
         );
         let pending = [];
-        console.log(`> parsing ${revealedEvents.length} events.....`)
+        console.log(`> find ${revealedEvents.length} events.....`)
         for (let index = 0; index < revealedEvents.length; index++) {
             if(index % 10 === 0) {
                 await Promise.all(pending.concat(delay(1000))); // every 10 tx await minumun 1s
