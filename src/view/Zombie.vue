@@ -89,7 +89,7 @@ type ImageType = {
     isDup: boolean;
 }
 
-const ipfsGateway = 'https://cloudflare-ipfs.com/ipfs/';
+const ipfsGateway = 'https://opensea.mypinata.cloud/ipfs/';
 const { isMobile, screenSize } = GlobalStore;
 const updatedTime = computed(() => new Date(zombieMap.updated_time).toLocaleString());
 const sectionStudio = ref<HTMLDivElement | null>(null);
