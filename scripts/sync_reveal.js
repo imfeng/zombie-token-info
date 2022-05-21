@@ -7,12 +7,13 @@ const ipfsGateway = [ 'https://opensea.mypinata.cloud/ipfs/', 'https://opensea.m
 // 'https://opensea.mypinata.cloud/ipfs/', 'https://cloudflare-ipfs.com/ipfs/', 'https://gateway.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs/', 'https://cf-ipfs.com/ipfs/
 
 const outputFilePath = path.resolve(__dirname, '../src/assets/reveal-to-token.json');
+const startTokenId = 0;
 
 axiosRetry(axios, { retries: 3 });
 async function main() {
   const result = {"updated_time": new Date().getTime()};
   const ids = Object.keys(ZombieMap).sort((a, b) => a - b);
-  let currentIndex = 0;
+  let currentIndex = ids.findIndex(id => id >= startTokenId);
   let pending = [];
   console.log(`parsing ${ids.length} tokens.....`);
   while (currentIndex <= (ids.length-1)) {
