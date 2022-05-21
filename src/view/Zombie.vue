@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="control-box">
-                <label for="">REVEAL ID：</label>
+                <label for="">ZOMBIE ID：</label>
                 <input
                     v-model="revealId"
                     class="input-zombie"

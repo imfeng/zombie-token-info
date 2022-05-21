@@ -79,6 +79,7 @@ async function main() {
         currentEndBlock = currentEndBlock + EachFetchDataBlockSize > latestBlock ? latestBlock : currentEndBlock + EachFetchDataBlockSize;
     }
 
+    console.log(`Total find ${Object.keys(result).length - 1} Zombie Tokens.`);
     fs.writeFileSync(outputFilePath, JSON.stringify(result), 'utf8', function(err) {
         if (err) return console.log(err);
     });
@@ -93,7 +94,7 @@ function delay(time = 1000) {
 }
 
 function getIpfsHashFromBytes32(bytes32Hex) {
-    // if bytes32Hex would 0x0000...0000 would return empty Cid
+    // if bytes32Hex is 0x0000...0000, return empty string cid;
     if(Number(bytes32Hex) === 0) {
         return '';
     }
