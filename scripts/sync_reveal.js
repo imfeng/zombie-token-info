@@ -1,61 +1,51 @@
 const fs = require('fs');
-const path = require('path')
-const ethers = require('ethers');
-const ZombieABI = require('./zombieclub-abi.json');
-require('dotenv').config({path: path.resolve(__dirname, '../.env.dev')});
-
-const ZombieAddress = '0x9c80777cae192e5031c38a0d951c55730ecc3f5e';
-const provider = new ethers.providers.JsonRpcProvider(process.env['WE3_RPC_URL']);
+const path = require('path');
+const axios = require('axios');
+const axiosRetry = require('axios-retry');
+const ZombieMap = require('../src/assets/zombie-map.json');
+const ipfsGateway = [ 'https://opensea.mypinata.cloud/ipfs/', 'https://opensea.mypinata.cloud/ipfs/', 'https://opensea.mypinata.cloud/ipfs/' ];
+// 'https://opensea.mypinata.cloud/ipfs/', 'https://cloudflare-ipfs.com/ipfs/', 'https://gateway.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://gateway.pinata.cloud/ipfs/', 'https://cf-ipfs.com/ipfs/
 
 const outputFilePath = path.resolve(__dirname, '../src/assets/reveal-to-token.json');
-const EachFetchDataBlockSize = 10000;
-const fromBlock = 14486247;
 
+axiosRetry(axios, { retries: 3 });
 async function main() {
-  const latestBlock = await provider.getBlockNumber();
-  const signer =  provider.getSigner()
-  const ZombieContract = new ethers.Contract(ZombieAddress, ZombieABI, signer);
   const result = {"updated_time": new Date().getTime()};
-  const parseZombieTokenReveal = async (fromBlock, toBlock) => {
-      const filters = ZombieContract.filters.RevealReceived();
-      const revealedEvents = await ZombieContract.queryFilter(
-          filters,
-          fromBlock,
-          toBlock
-      );
-      console.log(`> find ${revealedEvents.length} events.....`)
-      for (let index = 0; index < revealedEvents.length; index++) {
-          const event = revealedEvents[index];
-          const tockenId = event.args['tokenId'].toNumber();
-          const revealId = event.args['revealId'].toNumber();
-          result[revealId] = tockenId;
+  const ids = Object.keys(ZombieMap).sort((a, b) => a - b);
+  let currentIndex = 0;
+  let pending = [];
+  console.log(`parsing ${ids.length} tokens.....`);
+  while (currentIndex <= (ids.length-1)) {
+    try {
+      const tokenId = ids[currentIndex];
+      const ipfsId = ZombieMap[tokenId][0];
+      const gateway = ipfsGateway[currentIndex % ipfsGateway.length];
+      // console.log(gateway)
+      pending.push({
+        id: tokenId,
+        req: axios.get(`${gateway}${ipfsId}`),
+      });
+      if(pending.length === ipfsGateway.length || currentIndex === (ids.length-1)) {
+        console.log(`INFO: waiting (${currentIndex+1}/${ids.length})......`);
+        const resList = await Promise.all(pending.map(r => r.req));
+        resList.forEach((res, idx) => {
+          const revealId = res.data.name.split('#')[1];
+          result[revealId] = pending[idx].id;
+        });
+        pending = [];
+        await delay(500);
       }
-  }
-
-  let currentStartBlock =  fromBlock;
-  let currentEndBlock =  fromBlock + EachFetchDataBlockSize;
-  currentEndBlock = currentEndBlock > latestBlock ? latestBlock : currentEndBlock;
-  while (currentEndBlock <= latestBlock) {
-      console.log(`parsing ${currentStartBlock} ~ ${currentEndBlock} (end=${latestBlock}) blocks......`);
-      await parseZombieTokenReveal(currentStartBlock, currentEndBlock);
-      if (currentEndBlock >= latestBlock) {
-          break;
-      }
-      currentStartBlock = currentEndBlock + 1;
-      currentEndBlock = currentEndBlock + EachFetchDataBlockSize > latestBlock ? latestBlock : currentEndBlock + EachFetchDataBlockSize;
+    } catch (error) {
+      console.log(`ERROR: currentIndex=${currentIndex}`);
+      console.error(error.message);
+      console.log(error.request)
+    }
+    currentIndex++;
   }
 
   fs.writeFileSync(outputFilePath, JSON.stringify(result), 'utf8', function(err) {
-      if (err) return console.log(err);
+    if (err) return console.log(err);
   });
-  
-  
-}
-
-function delay(time = 1000) {
-  return new Promise((r) => {
-      setTimeout(r, time)
-  })
 }
 
 main()
