@@ -54,6 +54,7 @@ async function main() {
             }
             if(decodedTx.name === 'reveal') {
                 const id = decodedTx.args['_tokenId'];
+                console.log(decodedTx.args['_tokenBaseURIHashes'])
                 const hash = decodedTx.args['_tokenBaseURIHashes'].map(v => getIpfsHashFromBytes32(v));;
                 result[id] = hash;
             }
@@ -92,6 +93,10 @@ function delay(time = 1000) {
 }
 
 function getIpfsHashFromBytes32(bytes32Hex) {
+    // if bytes32Hex would 0x0000...0000 would return empty Cid
+    if(Number(bytes32Hex) === 0) {
+        return '';
+    }
     // Add our default ipfs values for first 2 bytes:
     // function:0x12=sha2, size:0x20=256 bits
     // and cut off leading "0x"
