@@ -208,16 +208,6 @@ function resizeImgSquare() {
     html, body, .app {
         padding: 0;
         margin: 0;
-        .rectext,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            // font-family: "BlackOpsOne", Roboto, "Browallia New", sans-serif;
-        }
-
     }
     .app {
         display: flex;
